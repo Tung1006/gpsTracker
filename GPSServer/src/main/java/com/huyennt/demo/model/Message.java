@@ -16,4 +16,12 @@ public class Message {
 	public void setTo(String to) {
 		this.to = to;
 	}
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "text='" + text + '\'' +
+                ", to='" + to + '\'' +
+                '}';
+    }
 }
