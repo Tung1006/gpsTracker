@@ -73,10 +73,5 @@ public class DataController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@DeleteMapping("/datas")
-	public ResponseEntity<HttpStatus> deleteAllDatas() {
-		dataRepo.deleteAll();
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
 
 }
