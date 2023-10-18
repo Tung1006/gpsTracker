@@ -22,7 +22,6 @@ public class Data {
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
 	private Date date;
-	private Time time;
 	private String speed;
 	private Boolean active;
 
@@ -66,14 +65,6 @@ public class Data {
 		this.date = date;
 	}
 
-	public Time getTime() {
-		return time;
-	}
-
-	public void setTime(Time time) {
-		this.time = time;
-	}
-
 	public String getSpeed() {
 		return speed;
 	}
@@ -92,18 +83,6 @@ public class Data {
 
 	public Data() {
 
-	}
-
-	public Data(String deviceId, String latitude, String longtitude, String altitude, Date date, Time time,
-			String speed, Boolean active) {
-		this.deviceId = deviceId;
-		this.latitude = latitude;
-		this.longtitude = longtitude;
-		this.altitude = altitude;
-		this.date = date;
-		this.time = time;
-		this.speed = speed;
-		this.active = active;
 	}
 
 	public String getDeviceId() {

@@ -29,23 +29,12 @@ public class DataController {
     DataService service;
 
 	@GetMapping("/datas")
-	public ResponseEntity<List<Data>> getAllDatas(@RequestParam(required = false) String deviceId) {
-		// khai bao mang luu du lieu datas
-		List<Data> datas = new ArrayList<Data>();
-
-		// ktra trong datas, neu co deviceId thi them vao mang
-		// tai sao k co deviceId lai dung findAll?
-		if (deviceId == null) {
-			dataRepo.findAll().forEach(datas::add);
-		} else {
-			dataRepo.findByDeviceId(deviceId).forEach(datas::add);
-		}
-		// mang datas trong tra ve body rong, co datas tra ve ok
-		if (datas.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<>(datas, HttpStatus.OK);
-		}
+	public ResponseEntity<Object>getAllDatas() {
+        ResponseBean resBean = new ResponseBean();
+        resBean.setCode(HttpStatus.OK.toString());
+        resBean.setMessage(Constants.SUCCESS);
+        resBean.setData(service.findall());
+        return new ResponseEntity<>(resBean, HttpStatus.OK);
 	}
 
 	@GetMapping("/datas/{id}")
@@ -69,24 +58,13 @@ public class DataController {
         return new ResponseEntity<>(resBean, HttpStatus.OK);
     }
 
-	@PutMapping("/datas/{id}")
-	public ResponseEntity<Data> updateData(@PathVariable("id") long id, @RequestBody Data data) {
-		Optional<Data> dataBody = dataRepo.findById(id);
-
-		if (dataBody.isPresent()) {
-			Data _data = dataBody.get();
-			_data.setDeviceId(data.getDeviceId());
-			_data.setLatitude(data.getLatitude());
-			_data.setLongtitude(data.getLongtitude());
-			_data.setAltitude(data.getAltitude());
-			_data.setDate(data.getDate());
-			_data.setTime(data.getTime());
-			_data.setSpeed(data.getSpeed());
-			_data.setActive(data.getActive());
-			return new ResponseEntity<>(dataRepo.save(_data), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	@PutMapping("/datas")
+	public ResponseEntity<Object> updateData(@RequestBody Data data) {
+		ResponseBean resBean = new ResponseBean();
+        resBean.setCode(HttpStatus.OK.toString());
+        resBean.setMessage(Constants.SUCCESS);
+        resBean.setData(service.update(data));
+        return new ResponseEntity<>(resBean, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/datas/{id}")
