@@ -4,21 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.huyennt.demo.common.Constants;
+import com.huyennt.demo.common.ResponseBean;
+import com.huyennt.demo.service.DataService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.huyennt.demo.model.Data;
 import com.huyennt.demo.repository.DataRepo;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +24,9 @@ public class DataController {
 
 	@Autowired
 	DataRepo dataRepo;
+
+    @Autowired
+    DataService service;
 
 	@GetMapping("/datas")
 	public ResponseEntity<List<Data>> getAllDatas(@RequestParam(required = false) String deviceId) {
@@ -57,13 +58,16 @@ public class DataController {
 		}
 	}
 
-	@PostMapping("/datas")
-	public ResponseEntity<Data> createData(@RequestBody Data data) {
-		Data _data = dataRepo.save(new Data(data.getDeviceId(), data.getLatitude(), data.getLongtitude(),
-				data.getAltitude(), data.getDate(), data.getTime(), data.getSpeed(), false));
-		return new ResponseEntity<>(_data, HttpStatus.CREATED);
-
-	}
+    @PostMapping("/add")
+    @Operation(summary = "[Thêm mới ]")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Object> add(@RequestBody @Valid Data entity) {
+        ResponseBean resBean = new ResponseBean();
+        resBean.setCode(HttpStatus.OK.toString());
+        resBean.setMessage(Constants.SUCCESS);
+        resBean.setData(service.add(entity));
+        return new ResponseEntity<>(resBean, HttpStatus.OK);
+    }
 
 	@PutMapping("/datas/{id}")
 	public ResponseEntity<Data> updateData(@PathVariable("id") long id, @RequestBody Data data) {

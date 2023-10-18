@@ -1,9 +1,12 @@
 package com.huyennt.demo.model;
 
-import java.sql.Date;
-import java.sql.Time;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.util.Date;
 
 @Entity
 @Table(name = "datas")
@@ -16,6 +19,8 @@ public class Data {
 	private String longtitude;
 	private String latitude;
 	private String altitude;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
 	private Date date;
 	private Time time;
 	private String speed;
