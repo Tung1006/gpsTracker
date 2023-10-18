@@ -17,7 +17,7 @@ public class WebSocketController {
 	@MessageMapping("/application")
 	@SendTo("/all/messages")
 	public Message send(final Message message) throws Exception {
-		System.out.println(message.toString());
+		System.out.println(message.toString());// dat
 		return message;
 		
 	}
